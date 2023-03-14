@@ -1,2 +1,3 @@
 # ssl-gke-api-gateway
-Sample code to create a MultiClusterGateway with SSL protected endpoints
+
+The purpose of this demo is to showcase a multi-cluster deployment and exposing deployments via a MultiClusterGateway, protected by a Google-managed SSL certificate.
