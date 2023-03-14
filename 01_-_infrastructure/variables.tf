@@ -14,22 +14,18 @@
  * limitations under the License.
  */
 
-module "project" {
-  source = "./modules/project"
+variable "billing_account_id" {
+  description = "Billing account ID to attach to the project."
+  type        = string
+}
 
-  billing_account_id = var.billing_account_id
-  parent             = var.parent_id
-  project_name       = var.project_name
+variable "parent_id" {
+  description = "ID of the parent.  This can either be a folder or organization and should be specified in the form `folders/FOLDER_ID` or `organizations/[ORGANIZATION_ID]`"
+  type        = string
+}
 
-  project_services = [
-    "anthos.googleapis.com",
-    "artifactregistry.googleapis.com",
-    "certificatemanager.googleapis.com",
-    "container.googleapis.com",
-    "dns.googleapis.com",
-    "gkehub.googleapis.com",
-    "multiclusterIngress.googleapis.com",
-    "multiclusterservicediscovery.googleapis.com",
-    "trafficdirector.googleapis.com",
-  ]
+variable "project_name" {
+  description = "Name of the project.  Will be augmented with a random suffix."
+  type        = string
+  default     = "mc-gw-tst"
 }
