@@ -19,22 +19,10 @@ variable "billing_account_id" {
   type        = string
 }
 
-variable "host_vpc_project_id" {
-  description = "Project ID of the Host VPC"
-  type        = string
-  default     = null
-}
-
-variable "is_vpc_host_project" {
-  description = "Indicates whether or not the project is a Host project."
+variable "create_project" {
+  description = "Either use an existing project, or create a brand new project.  When using an existing project, use the variable `project_name` to pass in the project ID."
   type        = bool
-  default     = false
-}
-
-variable "is_vpc_service_project" {
-  description = "Indicates whether or not the project is a Service project."
-  type        = bool
-  default     = false
+  default     = true
 }
 
 variable "parent" {

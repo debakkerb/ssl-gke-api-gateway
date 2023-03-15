@@ -16,12 +16,12 @@
 
 output "deployment_id" {
   description = "Unique suffix added to the project ID."
-  value       = random_id.default.hex
+  value       = var.create_project ? random_id.default.0.hex : ""
 }
 
 output "project_id" {
   description = "Project ID"
-  value       = google_project.default.project_id
+  value       = local.project.project_id
   depends_on  = [
     google_project_service.default
   ]
@@ -29,7 +29,7 @@ output "project_id" {
 
 output "project_name" {
   description = "Project name"
-  value       = google_project.default.name
+  value       = local.project.name
   depends_on  = [
     google_project_service.default
   ]
@@ -37,7 +37,7 @@ output "project_name" {
 
 output "project_number" {
   description = "Project number"
-  value       = google_project.default.number
+  value       = local.project.number
   depends_on  = [
     google_project_service.default
   ]

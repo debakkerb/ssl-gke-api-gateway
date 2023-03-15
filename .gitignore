@@ -19,3 +19,4 @@
 terraform.tfvars
 .envrc
 bin/
+.terraform.lock.hcl

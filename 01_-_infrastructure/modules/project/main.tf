@@ -17,40 +17,42 @@
 locals {
   parent_type = var.parent == null ? null : split("/", var.parent)[0]
   parent_id   = var.parent == null ? null : split("/", var.parent)[1]
+
+  project = var.create_project ? {
+    project_id = try(google_project.default.0.project_id, null)
+    number     = try(google_project.default.0.number, null)
+    name       = try(google_project.default.0.name, null)
+  } : {
+    project_id = try(data.google_project.default.0.project_id, null)
+    number     = try(data.google_project.default.0.number, null)
+    name       = try(data.google_project.default.0.name, null)
+  }
 }
 
 resource "random_id" "default" {
+  count       = var.create_project ? 1 : 0
   byte_length = 2
 }
 
+data "google_project" "default" {
+  count      = var.create_project ? 0 : 1
+  project_id = var.project_name
+}
+
 resource "google_project" "default" {
+  count               = var.create_project ? 1 : 0
   org_id              = local.parent_type == "organizations" ? local.parent_id : null
   folder_id           = local.parent_type == "folders" ? local.parent_id : null
   name                = var.project_name
-  project_id          = format("%s-%-s", var.project_name, random_id.default.hex)
+  project_id          = format("%s-%-s", var.project_name, random_id.default.0.hex)
   billing_account     = var.billing_account_id
   auto_create_network = false
 }
 
 resource "google_project_service" "default" {
   for_each                   = var.project_services
-  project                    = google_project.default.project_id
+  project                    = local.project.project_id
   service                    = each.value
   disable_on_destroy         = true
   disable_dependent_services = true
-}
-
-resource "google_compute_shared_vpc_host_project" "default" {
-  provider   = google-beta
-  count      = var.is_vpc_host_project ? 1 : 0
-  project    = google_project.default.project_id
-  depends_on = [google_project_service.default]
-}
-
-resource "google_compute_shared_vpc_service_project" "default" {
-  provider        = google-beta
-  count           = var.is_vpc_service_project ? 1 : 0
-  service_project = google_project.default.project_id
-  host_project    = var.host_vpc_project_id
-  depends_on      = [google_project_service.default]
 }

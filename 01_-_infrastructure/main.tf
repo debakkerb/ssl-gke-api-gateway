@@ -20,6 +20,7 @@ module "project" {
   billing_account_id = var.billing_account_id
   parent             = var.parent_id
   project_name       = var.project_name
+  create_project     = var.create_project
 
   project_services = [
     "anthos.googleapis.com",
@@ -28,7 +29,7 @@ module "project" {
     "container.googleapis.com",
     "dns.googleapis.com",
     "gkehub.googleapis.com",
-    "multiclusterIngress.googleapis.com",
+    "multiclusteringress.googleapis.com",
     "multiclusterservicediscovery.googleapis.com",
     "trafficdirector.googleapis.com",
   ]

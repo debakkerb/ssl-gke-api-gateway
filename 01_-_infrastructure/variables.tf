@@ -17,11 +17,19 @@
 variable "billing_account_id" {
   description = "Billing account ID to attach to the project."
   type        = string
+  default     = null
+}
+
+variable "create_project" {
+  description = "When set to true, a project will be created.  If it's set to false, an existing project will be used.  Use variable `project_name` to pass in the existing project."
+  type        = bool
+  default     = true
 }
 
 variable "parent_id" {
   description = "ID of the parent.  This can either be a folder or organization and should be specified in the form `folders/FOLDER_ID` or `organizations/[ORGANIZATION_ID]`"
   type        = string
+  default     = null
 }
 
 variable "project_name" {
