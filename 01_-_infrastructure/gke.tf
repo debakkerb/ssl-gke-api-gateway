@@ -40,6 +40,20 @@ module "gke_cluster_one" {
   enable_gateway_api               = true
 }
 
+module "gke_cluster_one_nodepool" {
+  source       = "./modules/gke-nodepool"
+  project_id   = module.project.project_id
+  cluster_name = module.gke_cluster_one.name
+  gke_version  = module.gke_cluster_one.gke_version
+  location     = var.cluster_one_location
+  name         = "${var.cluster_one_name}-nodes"
+
+  node_config = {
+    service_account = google_service_account.cluster_one_operator.email
+    machine_type    = "n2-standard-8"
+  }
+}
+
 module "gke_cluster_two" {
   source = "./modules/gke-cluster"
 
@@ -55,5 +69,20 @@ module "gke_cluster_two" {
 
   private_cluster_config = {
     master_ipv4_cidr_block = "10.255.1.0/28"
+  }
+}
+
+module "gke_cluster_two_node_pool" {
+  source = "./modules/gke-nodepool"
+
+  project_id   = module.project.project_id
+  name         = "${module.gke_cluster_two.name}-nodes"
+  cluster_name = module.gke_cluster_two.name
+  gke_version  = module.gke_cluster_two.gke_version
+  location     = var.cluster_two_location
+
+  node_config = {
+    service_account = google_service_account.cluster_two_operator.email
+    machine_type    = "n2-standard-8"
   }
 }
