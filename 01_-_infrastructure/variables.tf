@@ -50,6 +50,11 @@ variable "create_project" {
   default     = true
 }
 
+variable "domain" {
+  description = "Domain that should be used to generate the certificate."
+  type        = string
+}
+
 variable "network_name" {
   description = "Name of the network where the clusters will be hosted."
   type        = string

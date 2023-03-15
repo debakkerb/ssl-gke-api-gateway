@@ -30,3 +30,26 @@ $(terraform output -json | jq -r .cluster_two_credentials.value)
 kubectl config rename-context gke_${PROJECT_ID}_${LOCATION_ONE}_${CLUSTER_ONE_NAME} cluster-one
 kubectl config rename-context gke_${PROJECT_ID}_${LOCATION_TWO}_${CLUSTER_TWO_NAME} cluster-two
 ```
+
+## Certificates
+
+### CNAME record
+
+Run the following command and create a DNS record for your domain with the following values:
+- Hostname: *.DOMAIN
+- Type: CNAME
+- TTL: 30 seconds (or pick any value you prefer)
+- DATA: Value copied from the command below
+
+```shell
+# Retrieve the CNAME record for your DNS records.  
+echo $(terraform output -json | jq -r .certificate_cname_data.value) | pbcopy
+```
+
+### Certificate Status
+
+You can execute the following command to check the status of the certificate.  It can take up to 48 hours to provision the certificate (but usually takes less time to complete).
+
+```shell
+ $(terraform output -json | jq -r .certificate_status.value)
+```

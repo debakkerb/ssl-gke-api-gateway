@@ -14,6 +14,14 @@
  * limitations under the License.
  */
 
+output "certificate_cname_data" {
+  value = google_certificate_manager_dns_authorization.default.dns_resource_record[0].data
+}
+
+output "certificate_status" {
+  value = "gcloud certificate-manager certificates describe ${google_certificate_manager_certificate.root_certificate.name} --project ${module.project.project_id}"
+}
+
 output "cluster_one_credentials" {
   value = "gcloud container clusters get-credentials ${module.gke_cluster_one.name} --zone ${var.cluster_one_location} --project ${module.project.project_id}"
 }
