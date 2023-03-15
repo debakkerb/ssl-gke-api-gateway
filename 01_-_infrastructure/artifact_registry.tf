@@ -34,3 +34,11 @@ resource "google_artifact_registry_repository_iam_member" "gke_operator_registry
   role       = "roles/artifactregistry.reader"
   location   = var.artifact_registry_location
 }
+
+resource "local_file" "env_rc_file" {
+  filename = "../02_-_app/.envrc"
+
+  content = templatefile("${path.module}/templates/.envrc.tpl", {
+    IMAGE_NAME = "${var.artifact_registry_location}-docker.pkg.dev/${module.project.project_id}/${google_artifact_registry_repository.default.name}/demo-app"
+  })
+}
