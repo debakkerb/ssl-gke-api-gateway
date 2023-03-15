@@ -14,6 +14,18 @@
  * limitations under the License.
  */
 
+variable "artifact_registry_location" {
+  description = "Location where Artifact Registry will create the repository"
+  type        = string
+  default     = "europe-west1"
+}
+
+variable "artifact_registry_repository_id" {
+  description = "ID of the registry repository"
+  type        = string
+  default     = "application-images"
+}
+
 variable "billing_account_id" {
   description = "Billing account ID to attach to the project."
   type        = string
