@@ -43,7 +43,7 @@ resource "google_container_cluster" "default" {
   min_master_version       = local.cluster_version
 
   release_channel {
-    channel = var.channel
+    channel = var.release_channel
   }
 
   dynamic "gateway_api_config" {

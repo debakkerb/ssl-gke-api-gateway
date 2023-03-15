@@ -13,10 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 variable "billing_account_id" {
   description = "Billing account ID to attach to the project."
   type        = string
   default     = null
+}
+
+variable "cluster_one_name" {
+  description = "Name of the cluster that will be created in region 1"
+  type        = string
+  default     = "gke-cluster-zone-one"
+}
+
+variable "cluster_one_location" {
+  description = "Location where the first cluster should be created"
+  type        = string
+  default     = "europe-west1-b"
+}
+
+variable "cluster_two_location" {
+  description = "Location where the second cluster will be created"
+  type        = string
+  default     = "europe-west4-b"
+}
+
+variable "cluster_two_name" {
+  description = "Name of the second cluster"
+  type        = string
+  default     = "gke-cluster-zone-two"
 }
 
 variable "create_project" {
@@ -48,10 +73,34 @@ variable "parent_id" {
   default     = null
 }
 
+variable "pod_ip_range_name" {
+  description = "Common name for Pod IP ranges on the subnets."
+  type        = string
+  default     = "pod-ip-range"
+}
+
 variable "project_name" {
   description = "Name of the project.  Will be augmented with a random suffix."
   type        = string
   default     = "mc-gw-tst"
+}
+
+variable "region_one" {
+  description = "Region where the first cluster will be created"
+  type        = string
+  default     = "europe-west1"
+}
+
+variable "region_two" {
+  description = "Region where the second cluster will be created"
+  type        = string
+  default     = "europe-west4"
+}
+
+variable "service_ip_range_name" {
+  description = "Common name for the Service IP ranges on the subnets."
+  type        = string
+  default     = "svc-ip-range"
 }
 
 variable "subnet_region_one" {
@@ -59,7 +108,6 @@ variable "subnet_region_one" {
   type = object({
     name                  = string
     ip_cidr_range         = string
-    region                = string
     description           = optional(string, "Terraform managed")
     enable_private_access = optional(bool, true)
     secondary_ip_ranges   = optional(map(string))
@@ -67,7 +115,6 @@ variable "subnet_region_one" {
   default = {
     name          = "mc-gw-snw-euw1"
     ip_cidr_range = "10.0.0.0/16"
-    region        = "europe-west1"
     description   = "Subnetwork hosting the GKE cluster in europe-west1"
     secondary_ip_ranges = {
       pod-ip-range = "10.1.0.0/16"
@@ -81,7 +128,6 @@ variable "subnet_region_two" {
   type = object({
     name                  = string
     ip_cidr_range         = string
-    region                = string
     description           = optional(string, "Terraform managed")
     enable_private_access = optional(bool, true)
     secondary_ip_ranges   = optional(map(string))
@@ -89,7 +135,6 @@ variable "subnet_region_two" {
   default = {
     name          = "mc-gw-snw-euw4"
     ip_cidr_range = "10.5.0.0/16"
-    region        = "europe-west4"
     description   = "Subnetwork hosting the GKE cluster in europe-west4"
     secondary_ip_ranges = {
       pod-ip-range = "10.6.0.0/16"

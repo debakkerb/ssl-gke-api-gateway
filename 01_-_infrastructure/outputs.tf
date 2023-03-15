@@ -14,6 +14,29 @@
  * limitations under the License.
  */
 
+output "cluster_one_credentials" {
+  value = "gcloud container clusters get-credentials ${module.gke_cluster_one.name} --zone ${var.cluster_one_location} --project ${module.project.project_id}"
+}
+
+output "cluster_one_location" {
+  value = var.cluster_one_location
+}
+
+output "cluster_one_name" {
+  value = var.cluster_one_name
+}
+
+output "cluster_two_credentials" {
+  value = "gcloud container clusters get-credentials ${module.gke_cluster_two.name} --zone ${var.cluster_two_location} --project ${module.project.project_id}"
+}
+
+output "cluster_two_location" {
+  value = var.cluster_two_location
+}
+
+output "cluster_two_name" {
+  value = var.cluster_two_name
+}
 
 output "project_id" {
   value = module.project.project_id

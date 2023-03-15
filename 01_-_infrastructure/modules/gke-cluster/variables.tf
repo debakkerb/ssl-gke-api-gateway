@@ -14,69 +14,21 @@
  * limitations under the License.
  */
 
-variable "project_id" {
-  description = "Project ID where the cluster should be created"
+variable "cluster_operator_service_account" {
+  description = "Service account that will be attached to the cluster"
   type        = string
 }
 
-variable "version_prefix" {
-  description = "Prefix of the cluster version"
+variable "cluster_version" {
+  description = "Version of the control plane that should be used."
   type        = string
-  default     = null
-}
-
-variable "release_channel" {
-  description = "Release channel to be used for the cluster"
-  type        = string
-  default     = "STABLE"
-}
-
-variable "name" {
-  description = "Name of the GKE cluster"
-  type        = string
-}
-
-variable "channel" {
-  description = "Channel to use for updates"
-  type        = string
-  default     = "STABLE"
+  default     = "1.24.9-gke.3200"
 }
 
 variable "description" {
   description = "Description of the GKE cluster"
   type        = string
   default     = "GKE Cluster"
-}
-
-variable "location" {
-  description = "Where to create the cluster.  Passing in a region will create a regional cluster, a zone will create a zonal cluster"
-  type        = string
-  default     = "europe-west1"
-}
-
-variable "network_selflink" {
-  description = "Selflink of the network where the cluster should be created"
-  type        = string
-}
-
-variable "subnetwork_selflink" {
-  description = "Selflink of the subnet where the clusters should run"
-  type        = string
-}
-
-variable "pod_ip_range" {
-  description = "IP range for the Pods"
-  type        = string
-}
-
-variable "svc_ip_range" {
-  description = "IP range of the Services"
-  type        = string
-}
-
-variable "cluster_operator_service_account" {
-  description = "Service account that will be attached to the cluster"
-  type        = string
 }
 
 variable "enable_gateway_api" {
@@ -91,15 +43,30 @@ variable "enable_sandbox" {
   default     = true
 }
 
-variable "cluster_version" {
-  description = "What cluster version to use"
+variable "location" {
+  description = "Where to create the cluster.  Passing in a region will create a regional cluster, a zone will create a zonal cluster"
   type        = string
-  default     = null
+  default     = "europe-west1"
+}
+
+variable "name" {
+  description = "Name of the GKE cluster"
+  type        = string
+}
+
+variable "network_selflink" {
+  description = "Selflink of the network where the cluster should be created"
+  type        = string
+}
+
+variable "pod_ip_range" {
+  description = "IP range for the Pods"
+  type        = string
 }
 
 variable "private_cluster_config" {
   description = "Configuration for private clusters"
-  type        = object({
+  type = object({
     enable_private_nodes    = optional(bool, true)
     enable_private_endpoint = optional(bool, false)
     master_ipv4_cidr_block  = string
@@ -108,3 +75,31 @@ variable "private_cluster_config" {
     master_ipv4_cidr_block = "10.255.0.0/28"
   }
 }
+
+variable "project_id" {
+  description = "Project ID where the cluster should be created"
+  type        = string
+}
+
+variable "release_channel" {
+  description = "What release channel to use for the cluster."
+  type        = string
+  default     = "STABLE"
+}
+
+variable "svc_ip_range" {
+  description = "IP range of the Services"
+  type        = string
+}
+
+variable "subnetwork_selflink" {
+  description = "Selflink of the subnet where the clusters should run"
+  type        = string
+}
+
+variable "version_prefix" {
+  description = "Prefix of the cluster version"
+  type        = string
+  default     = null
+}
+

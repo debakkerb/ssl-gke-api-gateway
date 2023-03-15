@@ -26,7 +26,7 @@ resource "google_compute_subnetwork" "subnet_region_one" {
   name                     = var.subnet_region_one.name
   network                  = google_compute_network.default.self_link
   ip_cidr_range            = var.subnet_region_one.ip_cidr_range
-  region                   = var.subnet_region_one.region
+  region                   = var.region_one
   private_ip_google_access = var.subnet_region_one.enable_private_access
 
   secondary_ip_range = var.subnet_region_one.secondary_ip_ranges == null ? [] : [
@@ -40,7 +40,7 @@ resource "google_compute_subnetwork" "subnet_region_two" {
   name                     = var.subnet_region_two.name
   network                  = google_compute_network.default.self_link
   ip_cidr_range            = var.subnet_region_two.ip_cidr_range
-  region                   = var.subnet_region_two.region
+  region                   = var.region_two
   private_ip_google_access = var.subnet_region_two.enable_private_access
 
   secondary_ip_range = var.subnet_region_two.secondary_ip_ranges == null ? [] : [
