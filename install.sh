@@ -16,3 +16,17 @@
 
 set -ex
 
+PARENT_DIR=$(pwd)
+
+# Switch to Terraform directory
+cd ${PARENT_DIR}/01_-_infrastructure
+
+# Initialise Terraform configuration
+terraform init -reconfigure -upgrade
+
+# Apply Terraform configuration
+terraform apply -auto-approve
+
+# Source environment variables
+cd ${PARENT_DIR}
+
