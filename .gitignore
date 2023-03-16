@@ -22,3 +22,6 @@ bin/
 .terraform.lock.hcl
 .envrc
 env.sh
+
+03_-_kubernetes/overlays/accounting/kustomization.yaml
+03_-_kubernetes/overlays/consumer/kustomization.yaml
