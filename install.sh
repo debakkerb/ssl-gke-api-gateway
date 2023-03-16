@@ -46,4 +46,14 @@ cd ${PARENT_DIR}/02_-_app
 make build/docker
 
 # Create Kustomize configuration
-cd ${PARENT_DIR}/03_-_kubernetes
+cd ${PARENT_DIR}/03_-_kubernetes/
+
+# Update configuration files so they contain the updated fields
+sed -i '' "s|IMAGE_NAME|${IMAGE_NAME}|g" ./overlays/accounting/kustomization.yaml
+sed -i '' "s|IMAGE_TAG|${IMAGE_TAG}|g" ./overlays/accounting/kustomization.yaml
+sed -i '' "s|SERVICE_ACCOUNT|${ACCOUNTING_APP_IDENTITY}|g" ./overlays/accounting/kustomization.yaml
+
+sed -i '' "s|IMAGE_NAME|${IMAGE_NAME}|g" ./overlays/consumer/kustomization.yaml
+sed -i '' "s|IMAGE_TAG|${IMAGE_TAG}|g" ./overlays/consumer/kustomization.yaml
+sed -i '' "s|SERVICE_ACCOUNT|${ACCOUNTING_APP_IDENTITY}|g" ./overlays/consumer/kustomization.yaml
+

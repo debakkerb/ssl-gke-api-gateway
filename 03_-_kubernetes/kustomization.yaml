@@ -12,6 +12,49 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+namespace: accounting
+namePrefix: acc-
+labels:
+  - pairs:
+      team: accounting
+      environment: DEV
+
 resources:
-  - overlays/accounting
-  - overlays/consumer
+  - ../../base
+
+images:
+  - name: app
+    newName: IMAGE_NAME
+    newTag: IMAGE_TAG
+
+patches:
+  - patch: |-
+      - op: add
+        path: /metadata/labels/app.kubernetes.io~1version
+        value: IMAGE_TAG
+    target:
+      group: apps
+      version: v1
+      kind: Deployment
+  - patch: |-
+      - op: replace
+        path: /spec/template/spec/container/0/env/0/value
+        value: "Accounting"
+    target:
+      group: apps
+      version: v1
+      kind: Deployment
+  - patch: |-
+      - op: replace
+        path: /metadata/name
+        value: accounting
+    target:
+      kind: Namespace
+      name: default
+  - patch: |-
+      - op: replace
+        path: /metadata/annotations/iam.gke.io.gcp-service-account
+        value: SERVICE_ACCOUNT
+    target:
+      kind: ServiceAccount
+      name: app-identity
