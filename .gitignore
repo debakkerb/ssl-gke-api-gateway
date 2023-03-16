@@ -23,5 +23,8 @@ bin/
 .envrc
 env.sh
 
-03_-_kubernetes/overlays/accounting/kustomization.yaml
-03_-_kubernetes/overlays/consumer/kustomization.yaml
+03_-_kubernetes/app/overlays/accounting/kustomization.yaml
+03_-_kubernetes/app/overlays/consumer/kustomization.yaml
+
+03_-_kubernetes/gateway/public-app-route-accounting.yaml
+03_-_kubernetes/gateway/public-app-route-consumer.yaml

@@ -46,7 +46,7 @@ cd ${PARENT_DIR}/02_-_app
 make build/docker
 
 # Create Kustomize configuration
-cd ${PARENT_DIR}/03_-_kubernetes/
+cd ${PARENT_DIR}/03_-_kubernetes/app
 
 # Update configuration files so they contain the updated fields
 cp overlays/accounting/kustomization.yaml.orig overlays/accounting/kustomization.yaml
@@ -63,4 +63,8 @@ sed -i '' "s|SERVICE_ACCOUNT|${ACCOUNTING_APP_IDENTITY}|g" ./overlays/consumer/k
 # Deploy resources to both clusters
 kubectl apply -k ./ --context mgw-cluster-one
 kubectl apply -k ./ --context mgw-cluster-two
+
+# Deploy Gateway
+
+
 

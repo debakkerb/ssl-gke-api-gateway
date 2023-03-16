@@ -46,5 +46,6 @@ resource "local_file" "environment_variables" {
     IMAGE_NAME              = local.image_name
     CONSUMER_APP_IDENTITY   = google_service_account.consumer_app_identity.email
     ACCOUNTING_APP_IDENTITY = google_service_account.accounting_app_identity.email
+    DOMAIN                  = var.domain
   })
 }
