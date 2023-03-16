@@ -31,16 +31,16 @@ terraform apply -auto-approve
 $(terraform output -json | jq -r .cluster_one_credentials.value)
 $(terraform output -json | jq -r .cluster_two_credentials.value)
 
-# Rename context
-kubectl config delete-context mgw-cluster-one
-kubectl config delete-context mgw-cluster-two
-kubectl config rename-context gke_${PROJECT_ID}_${LOCATION_ONE}_${CLUSTER_ONE_NAME} mgw-cluster-one
-kubectl config rename-context gke_${PROJECT_ID}_${LOCATION_TWO}_${CLUSTER_TWO_NAME} mgw-cluster-two
-kubectl config use-context mgw-cluster-one
-
 # Source environment variables
 cd ${PARENT_DIR}
 source env.sh
+
+# Rename context
+kubectl config delete-context mgw-cluster-one || true
+kubectl config delete-context mgw-cluster-two || true
+kubectl config rename-context gke_${PROJECT_ID}_${LOCATION_ONE}_${CLUSTER_ONE_NAME} mgw-cluster-one
+kubectl config rename-context gke_${PROJECT_ID}_${LOCATION_TWO}_${CLUSTER_TWO_NAME} mgw-cluster-two
+kubectl config use-context mgw-cluster-one
 
 cd ${PARENT_DIR}/02_-_app
 make build/docker
