@@ -26,6 +26,18 @@ resource "google_service_account" "cluster_two_operator" {
   description = "Service account attached to the second GKE cluster"
 }
 
+resource "google_service_account" "consumer_app_identity" {
+  project     = module.project.project_id
+  account_id  = "consumer-app-id"
+  description = "Service account used by the Consumer deployments on GKE, via Workload Identity"
+}
+
+resource "google_service_account" "accounting_app_identity" {
+  project     = module.project.project_id
+  account_id  = "accounting-app-id"
+  description = "Service account used by the Accounting deployments on GKE, via Workload Identity"
+}
+
 module "gke_cluster_one" {
   source = "./modules/gke-cluster"
 

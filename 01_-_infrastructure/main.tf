@@ -34,3 +34,17 @@ module "project" {
     "trafficdirector.googleapis.com",
   ]
 }
+
+resource "local_file" "environment_variables" {
+  filename = "../env.sh"
+  content = templatefile("${path.module}/templates/env.sh.tpl", {
+    PROJECT_ID              = module.project.project_id
+    CLUSTER_ONE_NAME        = module.gke_cluster_one.name
+    CLUSTER_TWO_NAME        = module.gke_cluster_two.name
+    LOCATION_ONE            = var.cluster_one_location
+    LOCATION_TWO            = var.cluster_two_location
+    IMAGE_NAME              = local.image_name
+    CONSUMER_APP_IDENTITY   = google_service_account.consumer_app_identity.email
+    ACCOUNTING_APP_IDENTITY = google_service_account.accounting_app_identity.email
+  })
+}
