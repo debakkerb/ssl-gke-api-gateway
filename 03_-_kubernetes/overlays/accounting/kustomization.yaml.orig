@@ -38,7 +38,7 @@ patches:
       kind: Deployment
   - patch: |-
       - op: replace
-        path: /spec/template/spec/container/0/env/0/value
+        path: /spec/template/spec/containers/0/env/0/value
         value: "Accounting"
     target:
       group: apps
