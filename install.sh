@@ -14,8 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set -ex
-
 PARENT_DIR=$(pwd)
 
 # Switch to Terraform directory
@@ -75,3 +73,14 @@ sed -i '' "s|DOMAIN|accounting.${DOMAIN}|g" ./public-app-route-accounting.yaml
 sed -i '' "s|DOMAIN|accounting.${DOMAIN}|g" ./public-app-route-consumer.yaml
 
 kubectl apply -f ./ --context mgw-cluster-one
+
+CLUSTER_ADDRESS=$(kubectl get gateways.gateway.networking.k8s.io external-https -o=jsonpath="{.status.addresses[0].value}" -n gateway-infra --context mgw-cluster-one)
+
+# Manual config
+
+echo "##############################################################################################"
+echo "Please update your DNS records with the following details:"
+echo "- Add a CNAME record for *.${DOMAIN}, data: ${CNAME_RECORD}"
+echo "- Add an A-record for accounting.${DOMAIN}, data: ${CLUSTER_ADDRESS}"
+echo "- Add an A-record for consumer.${DOMAIN}, data: ${CLUSTER_ADDRESS}"
+echo "##############################################################################################"

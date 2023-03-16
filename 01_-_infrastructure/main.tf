@@ -47,5 +47,6 @@ resource "local_file" "environment_variables" {
     CONSUMER_APP_IDENTITY   = google_service_account.consumer_app_identity.email
     ACCOUNTING_APP_IDENTITY = google_service_account.accounting_app_identity.email
     DOMAIN                  = var.domain
+    CNAME_RECORD            = google_certificate_manager_dns_authorization.default.dns_resource_record[0].data
   })
 }
