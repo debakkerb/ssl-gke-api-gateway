@@ -66,5 +66,12 @@ kubectl apply -k ./ --context mgw-cluster-two
 
 # Deploy Gateway
 
+cd ${PARENT_DIR}/03_-_kubernetes/gateway
 
+cp public-app-route-accounting.yaml.orig public-app-route-accounting.yaml
+cp public-app-route-consumer.yaml.orig public-app-route-consumer.yaml
 
+sed -i '' "s|DOMAIN|accounting.${DOMAIN}|g" ./public-app-route-accounting.yaml
+sed -i '' "s|DOMAIN|accounting.${DOMAIN}|g" ./public-app-route-consumer.yaml
+
+kubectl apply -f ./ --context mgw-cluster-one
