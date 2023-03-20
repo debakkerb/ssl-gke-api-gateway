@@ -27,10 +27,10 @@ resource "google_artifact_registry_repository" "default" {
 }
 
 resource "google_artifact_registry_repository_iam_member" "gke_operator_registry_access" {
-  for_each = toset([
-    google_service_account.cluster_one_operator.email,
-    google_service_account.cluster_two_operator.email
-  ])
+  for_each = {
+    cluster_one_operator = google_service_account.cluster_one_operator.email,
+    cluster_two_operator = google_service_account.cluster_two_operator.email
+  }
 
   project    = module.project.project_id
   member     = "serviceAccount:${each.value}"
