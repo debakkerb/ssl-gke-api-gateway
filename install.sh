@@ -79,6 +79,37 @@ GATEWAY_ADDRESS=$(kubectl get gateways.gateway.networking.k8s.io external-https 
 while [ -z "$GATEWAY_ADDRESS" ]; do
   GATEWAY_ADDRESS=$(kubectl get gateways.gateway.networking.k8s.io external-https -o=jsonpath="{.status.addresses[0].value}" -n gateway-infra --context mgw-cluster-one)
 done
+echo "Gateway address provisioned: ${GATEWAY_ADDRESS}"
+
+# Patching the environment variables on cluster one
+kubectl -n accounting set env deployment/acc-demo-app \
+  AUDIENCE=accounting \
+  NAMESPACE=accounting \
+  CLUSTER=${CLUSTER_ONE_NAME} \
+  REGION=${LOCATION_ONE} \
+  --context mgw-cluster-one
+
+kubectl -n consumer set env deployment/cons-demo-app \
+  AUDIENCE=consumer \
+  NAMESPACE=consumer \
+  CLUSTER=${CLUSTER_ONE_NAME} \
+  REGION=${LOCATION_ONE} \
+  --context mgw-cluster-one
+
+# Patching the environment variables on cluster two
+kubectl -n accounting set env deployment/acc-demo-app \
+  AUDIENCE=accounting \
+  NAMESPACE=accounting \
+  CLUSTER=${CLUSTER_TWO_NAME} \
+  REGION=${LOCATION_TWO} \
+  --context mgw-cluster-two
+
+kubectl -n consumer set env deployment/cons-demo-app \
+  AUDIENCE=consumer \
+  NAMESPACE=consumer \
+  CLUSTER=${CLUSTER_TWO_NAME} \
+  REGION=${LOCATION_TWO} \
+  --context mgw-cluster-two
 
 # Manual config
 
