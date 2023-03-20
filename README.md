@@ -1,6 +1,6 @@
 # ssl-gke-api-gateway
 
-The purpose of this demo is to showcase a multi-cluster deployment and exposing deployments via a MultiClusterGateway, protected by a Google-managed SSL certificate.
+The purpose of this demo is to showcase a multi-cluster deployment and exposing deployments via a MultiClusterGateway, protected by a Google-managed SSL certificate with wildcards.
 
 ![architecture diagram, incl. load balancer and 2 gke clusters](./00_-_docs/images/architecture.png)
 
@@ -8,48 +8,25 @@ The purpose of this demo is to showcase a multi-cluster deployment and exposing 
 
 Before we dive into the configuration of the individual resources, let's talk about how to create everything in your environment.  Follow these instructions to create your Google Cloud environment and deploy the application to the GKE clusters.
 
-```shell
-# Initialise Terraform configuration
-terraform init -reconfigure -upgrade
-
-# Apply Terraform configuration
-terraform apply -auto-approve
-
-# Set environment variables
-export PROJECT_ID=$(terraform output -json | jq -r .project_id.value)
-export CLUSTER_ONE_NAME=$(terraform output -json | jq -r .cluster_one_name.value)
-export CLUSTER_TWO_NAME=$(terraform output -json | jq -r .cluster_two_name.value)
-export LOCATION_ONE=$(terraform output -json | jq -r .cluster_one_location.value)
-export LOCATION_TWO=$(terraform output -json | jq -r .cluster_two_location.value)
-
-# Download Kubernetes credentials
-$(terraform output -json | jq -r .cluster_one_credentials.value)
-$(terraform output -json | jq -r .cluster_two_credentials.value)
-
-# Rename context
-kubectl config rename-context gke_${PROJECT_ID}_${LOCATION_ONE}_${CLUSTER_ONE_NAME} cluster-one
-kubectl config rename-context gke_${PROJECT_ID}_${LOCATION_TWO}_${CLUSTER_TWO_NAME} cluster-two
-```
-
-## Certificates
-
-### CNAME record
-
-Run the following command and create a DNS record for your domain with the following values:
-- Hostname: *.DOMAIN
-- Type: CNAME
-- TTL: 30 seconds (or pick any value you prefer)
-- DATA: Value copied from the command below
+First, create `terraform.tfvars` in the [Infrastructure-folder](./01_-_infrastructure) with the following values:
 
 ```shell
-# Retrieve the CNAME record for your DNS records.  
-echo $(terraform output -json | jq -r .certificate_cname_data.value) | pbcopy
+billing_account_id = "ABCDEF-ABCDEF-ABCDEF"
+parent_id          = "folders/123456789"
+domain             = "acme.com"
 ```
 
-### Certificate Status
+(Replace the values provided with the actual values for your environment)
 
-You can execute the following command to check the status of the certificate.  It can take up to 48 hours to provision the certificate (but usually takes less time to complete).
+You can simply run `install.sh` in the root of this folder and the script will take care of creating all the necessary resources. 
 
-```shell
- $(terraform output -json | jq -r .certificate_status.value)
-```
+## Installation
+
+During the installation, you go through the following steps:
+1. Create all the [infrastructure resources](./00_-_docs/infrastructure.md).
+2. Build the [demo application](./00_-_docs/app.md) to expose 2 endpoints.
+3. [Deploy](./00_-_docs/app.md) the demo application in two separate namespaces, on both clusters.
+4. Create the [Gateway-resources](./00_-_docs/gateway.md) for both domains
+
+Please refer to the linked documentation above to understand what is happening in each individual section.
+
