@@ -74,13 +74,17 @@ sed -i '' "s|DOMAIN|accounting.${DOMAIN}|g" ./public-app-route-consumer.yaml
 
 kubectl apply -f ./ --context mgw-cluster-one
 
-CLUSTER_ADDRESS=$(kubectl get gateways.gateway.networking.k8s.io external-https -o=jsonpath="{.status.addresses[0].value}" -n gateway-infra --context mgw-cluster-one)
+echo "Retrieving Gateway address ..."
+GATEWAY_ADDRESS=$(kubectl get gateways.gateway.networking.k8s.io external-https -o=jsonpath="{.status.addresses[0].value}" -n gateway-infra --context mgw-cluster-one)
+while [ -z "$GATEWAY_ADDRESS" ]; do
+  GATEWAY_ADDRESS=$(kubectl get gateways.gateway.networking.k8s.io external-https -o=jsonpath="{.status.addresses[0].value}" -n gateway-infra --context mgw-cluster-one)
+done
 
 # Manual config
 
 echo "##############################################################################################"
 echo "Please update your DNS records with the following details:"
 echo "- Add a CNAME record for *.${DOMAIN}, data: ${CNAME_RECORD}"
-echo "- Add an A-record for accounting.${DOMAIN}, data: ${CLUSTER_ADDRESS}"
-echo "- Add an A-record for consumer.${DOMAIN}, data: ${CLUSTER_ADDRESS}"
+echo "- Add an A-record for accounting.${DOMAIN}, data: ${GATEWAY_ADDRESS}"
+echo "- Add an A-record for consumer.${DOMAIN}, data: ${GATEWAY_ADDRESS}"
 echo "##############################################################################################"
