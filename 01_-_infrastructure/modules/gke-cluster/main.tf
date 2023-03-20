@@ -46,11 +46,8 @@ resource "google_container_cluster" "default" {
     channel = var.release_channel
   }
 
-  dynamic "gateway_api_config" {
-    for_each = var.enable_gateway_api ? [""] : []
-    content {
-      channel = "CHANNEL_STANDARD"
-    }
+  gateway_api_config {
+    channel = "CHANNEL_STANDARD"
   }
 
   workload_identity_config {

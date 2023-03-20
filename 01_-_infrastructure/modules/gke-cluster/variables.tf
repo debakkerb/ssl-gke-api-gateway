@@ -31,12 +31,6 @@ variable "description" {
   default     = "GKE Cluster"
 }
 
-variable "enable_gateway_api" {
-  description = "Enable Gateway API on the cluster"
-  type        = bool
-  default     = false
-}
-
 variable "enable_sandbox" {
   description = "Enable sandbox mode on the cluster.  This requires a nodepool where Sandbox is not enabled, to be able to schedule all pods"
   type        = bool

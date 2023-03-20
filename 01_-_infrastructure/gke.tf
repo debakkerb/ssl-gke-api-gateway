@@ -49,7 +49,6 @@ module "gke_cluster_one" {
   svc_ip_range                     = var.service_ip_range_name
   cluster_operator_service_account = google_service_account.cluster_one_operator.email
   location                         = var.cluster_one_location
-  enable_gateway_api               = true
   enable_sandbox                   = false
 }
 
@@ -79,7 +78,6 @@ module "gke_cluster_two" {
   svc_ip_range                     = var.service_ip_range_name
   cluster_operator_service_account = google_service_account.cluster_two_operator.email
   location                         = var.cluster_two_location
-  enable_gateway_api               = true
   enable_sandbox                   = false
 
   private_cluster_config = {
