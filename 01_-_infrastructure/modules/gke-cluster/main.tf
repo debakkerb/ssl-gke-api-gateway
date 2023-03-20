@@ -99,6 +99,7 @@ resource "google_container_cluster" "default" {
     create = "45m"
     update = "45m"
   }
+
 }
 
 resource "google_container_node_pool" "non_sandbox_pool" {

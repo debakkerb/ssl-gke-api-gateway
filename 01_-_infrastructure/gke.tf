@@ -50,6 +50,7 @@ module "gke_cluster_one" {
   cluster_operator_service_account = google_service_account.cluster_one_operator.email
   location                         = var.cluster_one_location
   enable_gateway_api               = true
+  enable_sandbox                   = false
 }
 
 module "gke_cluster_one_nodepool" {
@@ -63,6 +64,7 @@ module "gke_cluster_one_nodepool" {
   node_config = {
     service_account = google_service_account.cluster_one_operator.email
     machine_type    = "n2-standard-8"
+    enable_sandbox  = false
   }
 }
 
@@ -78,6 +80,7 @@ module "gke_cluster_two" {
   cluster_operator_service_account = google_service_account.cluster_two_operator.email
   location                         = var.cluster_two_location
   enable_gateway_api               = true
+  enable_sandbox                   = false
 
   private_cluster_config = {
     master_ipv4_cidr_block = "10.255.1.0/28"
@@ -96,5 +99,6 @@ module "gke_cluster_two_node_pool" {
   node_config = {
     service_account = google_service_account.cluster_two_operator.email
     machine_type    = "n2-standard-8"
+    enable_sandbox  = false
   }
 }
