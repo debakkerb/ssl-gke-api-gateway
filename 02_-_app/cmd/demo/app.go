@@ -1,6 +1,9 @@
 package main
 
-import "net/http"
+import (
+	"net/http"
+	"os"
+)
 
 /**
  * Copyright 2023 Google LLC
@@ -19,5 +22,20 @@ import "net/http"
  */
 
 func (app *application) appInformation(w http.ResponseWriter, r *http.Request) {
+	namespace := os.Getenv("NAMESPACE")
+	cluster := os.Getenv("CLUSTER")
+	deployedRegion := os.Getenv("REGION")
+	targetAudience := os.Getenv("AUDIENCE")
 
+	env := envelope{
+		"namespace": namespace,
+		"cluster":   cluster,
+		"region":    deployedRegion,
+		"audience":  targetAudience,
+	}
+
+	err := app.writeJSON(w, http.StatusOK, env, nil)
+	if err != nil {
+		app.serverErrorResponse(w, r, err)
+	}
 }
