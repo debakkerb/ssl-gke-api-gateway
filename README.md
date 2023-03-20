@@ -20,7 +20,10 @@ domain             = "acme.com"
 
 You can simply run `install.sh` in the root of this folder and the script will take care of creating all the necessary resources. 
 
-## Installation
+**IMPORTANT**
+Once the script has finished, it will instruct you to complete a few additional steps, in terms of DNS configuration.  If you don't execute these, it won't be possible to test the deployment.
+
+## Sections
 
 During the installation, you go through the following steps:
 1. Create all the [infrastructure resources](./00_-_docs/infrastructure.md).
