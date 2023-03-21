@@ -22,10 +22,10 @@ import (
  */
 
 func (app *application) appInformation(w http.ResponseWriter, r *http.Request) {
-	namespace := os.Getenv("NAMESPACE")
-	cluster := os.Getenv("CLUSTER")
-	deployedRegion := os.Getenv("REGION")
-	targetAudience := os.Getenv("AUDIENCE")
+	namespace := checkEnvVariable(os.Getenv("NAMESPACE"), "LOCAL")
+	cluster := checkEnvVariable(os.Getenv("CLUSTER"), "LOCAL")
+	deployedRegion := checkEnvVariable(os.Getenv("REGION"), "LOCAL")
+	targetAudience := checkEnvVariable(os.Getenv("AUDIENCE"), "LOCAL")
 
 	env := envelope{
 		"namespace": namespace,
@@ -38,4 +38,12 @@ func (app *application) appInformation(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		app.serverErrorResponse(w, r, err)
 	}
+}
+
+func checkEnvVariable(value, defaultValue string) string {
+	if value == "" {
+		return defaultValue
+	}
+
+	return value
 }
