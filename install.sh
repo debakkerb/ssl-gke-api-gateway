@@ -122,3 +122,6 @@ echo "##########################################################################
 echo "Once the DNS records have been created and the certificate shows up as 'provisioned', you can open both endpoints in a browser"
 echo "- https://accounting.${DOMAIN}/v1/appinfo"
 echo "- https://consumer.${DOMAIN}/v1/appinfo"
+echo "##############################################################################################"
+echo "You can check the status of the certificate by running the following command in the 01_-_infrastructure-folder:"
+echo "$(terraform output -json | jq -r .certificate_status.value)"
