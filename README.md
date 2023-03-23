@@ -4,6 +4,8 @@ The purpose of this demo is to showcase a multi-cluster deployment and exposing 
 
 ![architecture diagram, incl. load balancer and 2 gke clusters](./00_-_docs/images/architecture.png)
 
+The idea is that you have two teams, Accounting and Consumer.  Both are running workloads on GKE, in their own respective namespaces.  
+
 ## Instructions
 
 Before we dive into the configuration of the individual resources, let's talk about how to create everything in your environment.  Follow these instructions to create your Google Cloud environment and deploy the application to the GKE clusters.
@@ -18,7 +20,7 @@ domain             = "acme.com"
 
 (Replace the values provided with the actual values for your environment)
 
-You can simply run `install.sh` in the root of this folder and the script will take care of creating all the necessary resources. 
+You can simply run `install.sh` in the root of this folder and the script will take care of creating all the necessary resources.  Once the certificate has been provisioned, you can access the two exposed endpoints, on https://accounting.domain/v1/appinfo and https://consumer.domain/v1/appinfo.
 
 **IMPORTANT**
 Once the script has finished, it will instruct you to complete a few additional steps, in terms of DNS configuration.  If you don't execute these, it won't be possible to test the deployment.

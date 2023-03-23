@@ -21,3 +21,11 @@ The application is exposed on port 4000 and exposes the following endpoints:
 - /v1/appinfo
 
 Functionally the application is pretty pointless, but the goal here is not to demonstrate writing applications in Go, but use it as a means to demonstrate multi-cluster deployments and endpoints.
+
+## Build
+
+Before building the image, ensure that the `.envrc`-file exists and contains the correct value for `IMAGE_NAME`. 
+
+```shell
+make build/docker
+```
